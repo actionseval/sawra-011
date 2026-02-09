@@ -17,8 +17,8 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install Dependencies
-        run: pip install black>=22.10 coverage[toml]>=6.2,<8.0 dirty-equals==0.11 fastapi>=0.103.2 httpx==0.28.1 jinja2==3.1.6 mypy==1.19.1 pre-commit>=2.17.0,<5.0.0 pytest>=7.0.1,<9.0.0 ruff==0.14.10 typing-extensions==4.15.0
+      # - name: Install Dependencies
+      #   run: pip install black>=22.10 coverage[toml]>=6.2,<8.0 dirty-equals==0.11 fastapi>=0.103.2 httpx==0.28.1 jinja2==3.1.6 mypy==1.19.1 pre-commit>=2.17.0,<5.0.0 pytest>=7.0.1,<9.0.0 ruff==0.14.10 typing-extensions==4.15.0
       - run: |
           uv sync --locked --no-dev --group tests
           mkdir coverage
