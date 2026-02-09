@@ -17,7 +17,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install Dependencies
         run: |
-          sudo apt install -y base-files bash coreutils libc-bin libc6:amd64 libpcre2-8-0:amd64 libpython3.14-stdlib:amd64 libselinux1:amd64 libzstd1:amd64 locales ncurses-base openssl python3.14 tzdata
+          sudo apt install -y base-files bash coreutils libc-bin libc6:amd64 libpcre2-8-0:amd64 libpython3.14-stdlib:amd64 libselinux1:amd64 libzstd1:amd64 locales ncurses-base openssl tzdata
       - run: |
           uv sync --locked --no-dev --group tests
           mkdir coverage
