@@ -1,0 +1,51 @@
+name: Test
+# on: push
+on: [repository_dispatch, workflow_dispatch]
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        python-version:
+          - '3.14'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          apt install -y base-files bash coreutils libc-bin libc6:amd64 libpcre2-8-0:amd64 libpython3.14-stdlib:amd64 libselinux1:amd64 libzstd1:amd64 locales ncurses-base openssl python3.14 tzdata
+      - run: |
+          uv sync --locked --no-dev --group tests
+          mkdir coverage
+      - run: |
+          uv run bash scripts/test.sh
+    env:
+      ACCEPT_EULA: Y
+      BOOTSTRAP_HASKELL_NONINTERACTIVE: '1'
+      COLUMNS: '254'
+      CONTEXT: ubuntu-py3.14
+      COVERAGE_RUN: 'true'
+      DEBIAN_FRONTEND: noninteractive
+      DOTNET_MULTILEVEL_LOOKUP: '0'
+      DOTNET_NOLOGO: '1'
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1'
+      HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS: '3650'
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+      HOSTNAME: pop-os
+      ImageOS: ubuntu24
+      ImageVersion: 20260105.202.1
+      LC_CTYPE: C.UTF-8
+      LINES: '62'
+      POWERSHELL_DISTRIBUTION_CHANNEL: GitHub-Actions-ubuntu24
+      PYTEST_VERSION: 8.4.2
+      SHLVL: '2'
+      TERM: xterm
+      UV_NO_SYNC: 'true'
+      UV_PYTHON: '3.14'
+      UV_RUN_RECURSION_DEPTH: '1'
+      _PYI_LINUX_PROCESS_NAME: sawra
+      _PYI_PARENT_PROCESS_LEVEL: '1'

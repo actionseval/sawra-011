@@ -1,0 +1,36 @@
+name: CI
+
+# on: [push, pull_request]
+on: [repository_dispatch, workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install black>=22.10
+          pip install 'coverage[toml]>=6.2,<8.0'
+          pip install dirty-equals==0.11
+          pip install fastapi>=0.103.2
+          pip install httpx==0.28.1
+          pip install jinja2==3.1.6
+          pip install mypy==1.19.1
+          pip install 'pre-commit>=2.17.0,<5.0.0'
+          pip install 'pytest>=7.0.1,<9.0.0'
+          pip install ruff==0.14.10
+          pip install typing-extensions==4.15.0
+
+      - name: Run script
+        run: |
+          uv sync --locked --no-dev --group tests
+          mkdir coverage
+          uv run bash scripts/test.sh
